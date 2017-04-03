@@ -1,4 +1,4 @@
-#cuRANSAC
+# cuRANSAC
 An implementation of RANSAC for absolute pose estimation of graph-like representations, using CUDA. 
 
 ## How it works
