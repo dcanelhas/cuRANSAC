@@ -1,5 +1,5 @@
 # cuRANSAC
-An implementation of RANSAC for absolute pose estimation of graph-like representations, using CUDA. 
+An implementation of RANSAC (RANdom SAmple Consensus)for absolute pose estimation of graph-like representations, using CUDA. 
 
 ## How it works
 The input is a set of nodes connected by edges (a graph).
@@ -11,16 +11,18 @@ The program then does the following:
  - Get the transformation corresponding to the minimum score.
 
 ## How to use it
-The program is run from the command-line with two graphs as arguments. The graphs should be provided  in the visualization toolkit (VTK) format vtp. The .vtp files can also be opened using the paraview program, which may possibly be made available from your linux distribution's software repositories, or downloadable from http://www.paraview.org/ .
+The program is run from the command-line with two graphs as arguments. The graphs should be provided in the visualization toolkit (VTK) format vtp. The .vtp files can also be opened using the paraview program, which may possibly be made available from your linux distribution's software repositories, or downloadable from http://www.paraview.org/ .
 
 Internally the representation of a graph is simply a vector of types:
  - float3 for vertices (containing components float x, float y, and float z) and 
  - uint2 for edges (containing components uint x, and uint y) indicating the indices to pairs of vertices that have an edge between them.
 
 example - running the program:
+```sh
 ./cuRANSAC ../graph_data/graph1.vtp ../graph_data/graph2.vtp 
 ./cuRANSAC ../graph_data/graph1.vtp ../graph_data/graph3.vtp 
 ./cuRANSAC ../graph_data/graph2.vtp ../graph_data/graph3.vtp 
+```
 etc.
 
 The OpenGL rendering window displays the two graphs as red and green. The visualization is done in a separate thread and is updated as the RANSAC iterations progress.
@@ -35,15 +37,14 @@ reset the the RANSAC pose-estimation to its first iteration by pressing "R"
 You may additionally modify this software to suit your needs according to the LICENCE.txt file
 
 ## How to REALLY use it
-include RANSAC.hpp in your source code and define nodes_source_device and nodes_source_target as types ```thrust::device_vector<float3>``` 
-You may re-use these for the fitness score too, or use the functions available in the graph_tools.hpp header to compute the midpoints along the connected vertices
-Then create and initialize the RANSAC object as such:
+Include RANSAC.hpp in your source code and define nodes_source_device and nodes_source_target as vectors of type ```thrust::device_vector<float3>```. 
+You may re-use these vectors for the fitness scoring too. Alternatively you may use the functions declared in the graph_tools.hpp header to compute the midpoints along the connected vertices and use the distance between these as a fitness measure, instead. Then create and initialize the RANSAC object as such, for example:
 
 ```cpp
-const uint max_iterations = 1<<24;
-const uint max_iterations_per_batch = 1<<12;
-const float error_tolerance_dist = 0.5f;
-const float inlier_ratio_to_accept_solution = 0.10; //get at least 10% within limits?
+const uint max_iterations = 1<<16;
+const uint max_iterations_per_batch = 1<<8;
+const float error_tolerance_dist = 0.8f;
+const float inlier_ratio_to_accept_solution = 0.1; //get at least 10% within limits?
 RANSAC* ransac_object = new RANSAC( max_iterations,
                       max_iterations_per_batch,
                       error_tolerance_dist,
@@ -63,16 +64,18 @@ ransac_object->start();
     RT sol;
   	ransac_object->GetCurrentSolution(sol);
 ```
-RT is a structure containing a rotation matrix and translation vector, defined in the RANSAC.hpp header.
+RT is a structure containing a rotation matrix and translation vector, defined in the RANSAC.hpp header. See the file read_graphs.cpp for a complete example.
 
 ## Compilation
 
 from the build directory:
 
+```bash
 cmake ..
 make
+```
 
-depends on:
+Compilation depends on:
 glfw3
 cuda (probably => 6.5 required, maybe even 7.0)
 glm
