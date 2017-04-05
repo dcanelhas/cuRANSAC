@@ -1,5 +1,5 @@
 # cuRANSAC
-An implementation of RANSAC (RANdom SAmple Consensus)for absolute pose estimation of graph-like representations, using CUDA. 
+An implementation of RANSAC (RANdom SAmple Consensus) for absolute pose estimation of graph-like representations, using CUDA. 
 
 ## How it works
 The input is a set of nodes connected by edges (a graph).
@@ -31,14 +31,12 @@ The bright triangles represent the triplets picked from each model, used to perf
 You may navigate the virtual camera around using keyboard controls mapped to  W,A,S,D,Ctrl,shift and mouselook (scroll for zoom)
 
 You may also:
-hard-reset the RANSAC pose-estimation with new random seed by pressing "H"
-reset the the RANSAC pose-estimation to its first iteration by pressing "R"
-
-You may additionally modify this software to suit your needs according to the LICENCE.txt file
+- Hard-reset the RANSAC pose-estimation with new random seed by pressing "H"
+- Reset the the RANSAC pose-estimation to its first iteration by pressing "R"
 
 ## How to REALLY use it
 Include RANSAC.hpp in your source code and define nodes_source_device and nodes_source_target as vectors of type ```thrust::device_vector<float3>```. 
-You may re-use these vectors for the fitness scoring too. Alternatively you may use the functions declared in the graph_tools.hpp header to compute the midpoints along the connected vertices and use the distance between these as a fitness measure, instead. Then create and initialize the RANSAC object as such, for example:
+You may re-use these vectors for the fitness scoring too. Alternatively you may use the functions declared in the graph_tools.hpp header to compute the midpoints along the connected vertices and use the distance between these as a fitness measure, instead. Then create and initialize the RANSAC object as, for example:
 
 ```cpp
 const uint max_iterations = 1<<16;
@@ -76,10 +74,10 @@ make
 ```
 
 Compilation depends on:
-glfw3
-cuda (probably => 6.5 required, maybe even 7.0)
-glm
-vtk (tested 5.6 6.0 and 7.0)
+- glfw3
+- cuda (probably => 6.5 required, maybe even 7.0)
+- glm
+- vtk (tested 5.6 6.0 and 7.0)
 
 There may be issues with different versions of GCC, CUDA your current GPU, and other things. 
 Look into the CMakeLists.txt and modify it according to your needs. 
