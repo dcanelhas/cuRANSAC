@@ -2,21 +2,20 @@
 #include <vtkSmartPointer.h>
 #include <vtkPolyData.h>
 
-#include <iostream>
-
 // GL Extension Wrangler
-#include <GL/glew.h>
 #include <cmath>
 #include <thread>
 #include <random>
+#include <iostream>
 
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "readfile.hpp"
 
-#define GLM_FORCE_RADIANS
 #include <cuda_runtime.h>
 #include <cuda_gl_interop.h>
 
+#define GLM_FORCE_RADIANS
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4

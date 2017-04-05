@@ -1,13 +1,13 @@
+#ifndef RANSAC_HPP
+#define RANSAC_HPP
+
 #define GLM_FORCE_CUDA
 
 #ifndef GLM_COMPILER
 	#define GLM_COMPILER 0
 #endif
 
-#ifndef CUDA_VERSION
-	#define CUDA_VERSION 7050
-#endif
-
+#include <cuda.h>
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -95,3 +95,5 @@ protected:
 	thrust::device_vector<RT>	 	_candidate_solutions;
 	thrust::device_vector<float>	_solution_scores;
 };
+
+#endif
